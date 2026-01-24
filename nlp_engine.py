@@ -1,10 +1,6 @@
 from transformers import pipeline
 import re
 
-# ======================================================
-# NLP ENGINE CLASS
-# ======================================================
-
 class PhishingNLPModule:
     def __init__(self):
         self.classifier = pipeline(
@@ -30,9 +26,6 @@ class PhishingNLPModule:
             r"login", r"credentials", r"pin"
         ]
 
-    # --------------------------------------------------
-    # Linguistic Cue Extraction
-    # --------------------------------------------------
     def extract_linguistic_cues(self, text: str):
         cues = set()
         lower = text.lower()
@@ -53,9 +46,6 @@ class PhishingNLPModule:
 
         return list(cues)
 
-    # --------------------------------------------------
-    # CORE NLP ANALYSIS (TEXT-BASED)
-    # --------------------------------------------------
     def analyze_text(self, text: str) -> dict:
         """
         Generic NLP analysis for ANY text input
@@ -88,10 +78,6 @@ class PhishingNLPModule:
                 else "low"
             )
         }
-
-    # --------------------------------------------------
-    # EMAIL-SPECIFIC HELPER (BACKWARD COMPATIBLE)
-    # --------------------------------------------------
     def analyze_email(self, headers: dict, body: str) -> dict:
         combined_text = f"""
         From: {headers.get('from', '')}
@@ -100,22 +86,7 @@ class PhishingNLPModule:
         {body}
         """
         return self.analyze_text(combined_text)
-
-
-# ======================================================
-# MODULE-LEVEL WRAPPER (IMPORTANT)
-# ======================================================
-
-# Create ONE shared NLP engine instance
 _nlp_engine = PhishingNLPModule()
 
 def run_nlp(text: str) -> dict:
-    """
-    Unified NLP entry point used by module3_runner.py
-
-    This abstraction allows:
-    - Email analysis
-    - Voice transcript analysis
-    - Chat message analysis
-    """
     return _nlp_engine.analyze_text(text)

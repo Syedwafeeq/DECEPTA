@@ -16,7 +16,6 @@ from database import (
     is_exception
 )
 
-# ---------------- APP SETUP ----------------
 
 app = Flask(__name__)
 app.secret_key = "hackathon-secret-key"
@@ -24,13 +23,10 @@ app.secret_key = "hackathon-secret-key"
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ---------------- DB INIT ----------------
-
 init_db()
 init_user_table()
 init_exception_table()
 
-# ---------------- AUTH DECORATOR ----------------
 
 def login_required(func):
     def wrapper(*args, **kwargs):
@@ -39,8 +35,6 @@ def login_required(func):
         return func(*args, **kwargs)
     wrapper.__name__ = func.__name__
     return wrapper
-
-# ---------------- AUTH ROUTES ----------------
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -80,8 +74,6 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 
-# ---------------- USER EXCEPTION ----------------
-
 @app.route("/add_exception", methods=["POST"])
 @login_required
 def add_sender_exception():
@@ -89,8 +81,6 @@ def add_sender_exception():
     if sender:
         add_exception(session["user"], sender)
     return redirect(url_for("index"))
-
-# ---------------- MAIN DASHBOARD ----------------
 
 @app.route("/", methods=["GET", "POST"])
 @login_required
@@ -115,8 +105,6 @@ def index():
                 "subject": headers.get("subject", ""),
                 "body": body
             }
-
-            # ---- CHECK USER EXCEPTION FIRST ----
             if is_exception(session["user"], sender):
                 result = {
                     "nlp_analysis": {
@@ -166,8 +154,6 @@ def index():
         user=session["user"]
     )
 
-# ---------------- VOICE PHISHING ROUTE ----------------
-
 @app.route("/voice", methods=["POST"])
 @login_required
 def voice():
@@ -205,8 +191,6 @@ def voice():
         dashboard=dashboard,
         user=session["user"]
     )
-
-# ---------------- RUN ----------------
 
 if __name__ == "__main__":
     app.run(debug=True)

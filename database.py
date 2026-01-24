@@ -10,9 +10,6 @@ DB_NAME = "email_analysis.db"
 def get_connection():
     return sqlite3.connect(DB_NAME)
 
-
-# ---------------- MAIN ANALYSIS TABLE ----------------
-
 def init_db():
     conn = get_connection()
     cursor = conn.cursor()
@@ -32,9 +29,6 @@ def init_db():
 
     conn.commit()
     conn.close()
-
-
-# ---------------- USER AUTH ----------------
 
 def init_user_table():
     conn = get_connection()
@@ -84,9 +78,6 @@ def authenticate_user(email, password):
 
     return row and bcrypt.checkpw(password.encode(), row[0])
 
-
-# ---------------- USER EXCEPTIONS ----------------
-
 def init_exception_table():
     conn = get_connection()
     cursor = conn.cursor()
@@ -130,9 +121,6 @@ def is_exception(user_email, sender):
     conn.close()
 
     return result is not None
-
-
-# ---------------- ANALYSIS STORAGE ----------------
 
 def hash_email(headers, body):
     combined = (
