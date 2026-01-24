@@ -1,0 +1,286 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+/* =========================
+   TOP NAVIGATION BAR
+========================= */
+.topbar {
+    height: 60px;
+    background: linear-gradient(to right, #0f172a, #1e293b);
+    color: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+}
+
+.topbar-left .subtitle {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.topbar-right {
+    font-size: 14px;
+}
+
+.topbar-right a {
+    color: #93c5fd;
+    text-decoration: none;
+}
+
+.topbar-right a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+.main-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+/* =========================
+   LEFT PANEL
+========================= */
+.left-panel {
+    flex: 2;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+/* =========================
+   RIGHT PANEL
+========================= */
+.right-panel {
+    flex: 1;
+    padding: 24px;
+    background: #e5e7eb;
+    overflow-y: auto;
+}
+
+/* =========================
+   UPLOAD CARD
+========================= */
+.upload-card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 24px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.upload-text h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.upload-text p {
+    font-size: 14px;
+    color: #475569;
+}
+
+/* =========================
+   UPLOAD FORM
+========================= */
+.upload-form {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.upload-form input[type="file"] {
+    font-size: 14px;
+}
+
+.upload-form button {
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
+
+    background: linear-gradient(to right, #2563eb, #3b82f6);
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.upload-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+/* =========================
+   GENERIC CARD
+========================= */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.card h3 {
+    margin-bottom: 12px;
+}
+
+.card.muted {
+    color: #64748b;
+    text-align: center;
+}
+
+/* =========================
+   DECISION BANNER
+========================= */
+.decision-banner {
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.decision-banner.ALLOW {
+    background: #dcfce7;
+    color: #14532d;
+}
+
+.decision-banner.WARN {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.decision-banner.BLOCK {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+.decision-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.decision-subtitle {
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* =========================
+   SIGNALS GRID
+========================= */
+.signals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.signal {
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.signal.risk {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+.signal.safe {
+    background: #dcfce7;
+    color: #14532d;
+}
+
+/* =========================
+   EXPLANATION LIST
+========================= */
+.reasons {
+    padding-left: 20px;
+}
+
+.reasons li {
+    margin-bottom: 6px;
+}
+
+/* =========================
+   ACTION BOX
+========================= */
+.action-box {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    background: #eef2ff;
+    font-weight: bold;
+}
+
+/* =========================
+   USER EXCEPTION BUTTON
+========================= */
+.exception-btn {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(to right, #16a34a, #22c55e);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.exception-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.35);
+}
+
+/* =========================
+   EMAIL PREVIEW
+========================= */
+.meta {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.email-body {
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 10px;
+
+    max-height: 65vh;
+    overflow-y: auto;
+
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    white-space: pre-wrap;
+}

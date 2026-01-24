@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DECEPTA</title>
+    <link rel="stylesheet" href="/static/login_style.css">
+</head>
+<body>
+<div class="landing-container">
+
+    <div class="animated-bg"></div>
+    <div class="login-card">
+        <h1>Welcome again...</h1>
+        <p>D_E_C_E_P_T_A</p>
+
+        {% if error %}
+            <p class="error-text">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            <div class="input-group">
+                <input type="email" name="email" required>
+                <label>Email</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" required>
+                <label>Password</label>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="register-link">
+            New here? <a href="/register">Create an account</a>
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

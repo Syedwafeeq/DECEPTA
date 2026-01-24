@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Threat Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- =========================
+     TOP NAVIGATION BAR
+========================= -->
+<div class="topbar">
+    <div class="topbar-left">
+        <strong>D_E_C_E_P_T_A</strong>
+        <span class="subtitle">Autonomous Phishing & Social Engineering Defense</span>
+    </div>
+    <div class="topbar-right">
+        {{ user }} |
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- =========================
+     MAIN LAYOUT
+========================= -->
+<div class="main-layout">
+
+    <!-- =========================
+         LEFT PANEL (ANALYSIS)
+    ========================= -->
+    <div class="left-panel">
+
+        <!-- =========================
+             EMAIL UPLOAD
+        ========================= -->
+        <div class="upload-card">
+            <div class="upload-text">
+                <h2>Analyze Email (.eml)</h2>
+                <p>Upload an email file to detect phishing and social engineering attacks</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="upload-form">
+                <input type="file" name="eml_file" accept=".eml" required>
+                <button type="submit">Analyze Email</button>
+            </form>
+        </div>
+
+        <!-- =========================
+             VOICE UPLOAD
+        ========================= -->
+        <div class="upload-card">
+            <div class="upload-text">
+                <h2>Analyze Voice Call</h2>
+                <p>Upload a recorded call to detect voice-based phishing (vishing)</p>
+            </div>
+
+            <form method="POST"
+                  enctype="multipart/form-data"
+                  action="/voice"
+                  class="upload-form">
+                <input type="file" name="voice_file" accept=".wav,.mp3" required>
+                <button type="submit">Analyze Voice</button>
+            </form>
+        </div>
+
+        {% if result %}
+
+        <!-- =========================
+             DECISION BANNER
+        ========================= -->
+        <div class="decision-banner {{ result.decision_engine.decision }}">
+            <div class="decision-title">
+                {{ result.decision_engine.decision }}
+            </div>
+            <div class="decision-subtitle">
+                Risk Score: {{ result.decision_engine.final_risk_score }}
+            </div>
+        </div>
+
+        <!-- =========================
+             EXPLANATION
+        ========================= -->
+        <div class="card">
+            <h3>Why this decision?</h3>
+            <ul class="reasons">
+                {% for reason in result.decision_engine.user_explanation %}
+                <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- =========================
+             SIGNALS
+        ========================= -->
+        <div class="signals-grid">
+            <div class="card">
+                <h3>🔤 Language Signals</h3>
+                {% for name, detected in dashboard.nlp.items() %}
+                <div class="signal {{ 'risk' if detected else 'safe' }}">
+                    {{ '⚠️' if detected else '✔️' }} {{ name }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <h3>🧠 Behavioral Signals</h3>
+                {% for name, detected in dashboard.behavioral.items() %}
+                <div class="signal {{ 'risk' if detected else 'safe' }}">
+                    {{ '⚠️' if detected else '✔️' }} {{ name }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- =========================
+             RECOMMENDED ACTION
+        ========================= -->
+        <div class="action-box">
+            {% if result.decision_engine.decision == "ALLOW" %}
+                ✅ No action required. This content appears safe.
+            {% elif result.decision_engine.decision == "WARN" %}
+                ⚠️ Proceed with caution. Verify the sender before taking action.
+            {% else %}
+                🚫 High risk detected. Do not interact with this content.
+            {% endif %}
+        </div>
+
+        <!-- =========================
+             USER EXCEPTION OPTION
+        ========================= -->
+        {% if result.decision_engine.decision == "WARN" %}
+        <form method="POST" action="/add_exception" style="margin-top:14px;">
+            <input type="hidden" name="sender" value="{{ email_preview.from }}">
+            <button type="submit" class="exception-btn">
+                ✅ Mark sender as exception
+            </button>
+        </form>
+        {% endif %}
+
+        {% endif %}
+    </div>
+
+    <!-- =========================
+         RIGHT PANEL (PREVIEW)
+    ========================= -->
+    <div class="right-panel">
+
+        {% if email_preview %}
+        <div class="card">
+            <h3>Content Preview</h3>
+
+            <div class="meta"><strong>From:</strong> {{ email_preview.from }}</div>
+            <div class="meta"><strong>To:</strong> {{ email_preview.to }}</div>
+            <div class="meta"><strong>Subject:</strong> {{ email_preview.subject }}</div>
+
+            <pre class="email-body">{{ email_preview.body }}</pre>
+        </div>
+        {% else %}
+        <div class="card muted">
+            Upload an email or voice file to view its contents here.
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>
